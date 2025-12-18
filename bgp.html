@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS202902 - Antares Network</title>
+        <link rel="icon" type="image/svg+xml" href="https://antaresnetwork.com/resources/favicon.ico">
+    <meta name="description"
+        content="AS202902 - IPv6-only stub network hosting web services for Antares Network with selective peering.">
+    <meta name="keywords" content="Antares Network, AS202902">
+    <meta name="author" content="Antares Network">
+    <meta property="og:title" content="AS202902 - Antares Network">
+    <meta property="og:description"
+        content="IPv6-only stub network hosting web services for Antares Network with selective peering.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://AS202902.net">
+    <meta property="og:image" content="https://antaresnetwork.com/resources/icon.png">
+    <meta property="og:site_name" content="AS202902">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AS202902 - Antares Network">
+    <meta name="twitter:description"
+        content="IPv6-only stub network hosting web services for Antares Network with selective peering.">
+    <meta name="twitter:image" content="https://antaresnetwork.com/resources/icon.png">
+    <meta name="theme-color" content="#ff3505">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        🌙
+    </button>
+
+    <body>
+        <div class="container">
+            <div class="header-container">
+                <img src="https://antaresnetwork.com/resources/icon.png" alt="Antares Network Logo" class="logo">
+                <h1><a href=https://AS202902.net>AS202902</a></h1>
+            </div>
+            <p class="subtitle">Part of the Antares Network - Hosting IPv6-native web services</p>
+            <h3>BGP Information</h3>
+            <div class="info-section">
+                <div id="loading" class="loading">Loading BGP information from PeeringDB...</div>
+                <div id="error" class="error" style="display: none;"></div>
+                <div id="content" style="display: none;"></div>
+                <script>
+                    const ASN = 'AS202902';
+                    const PEERINGDB_API_BASE = 'https://pdb-cache.as202902.net/api';
+
+
+                    async function fetchPeeringDB(asn) {
+                        const asnNumber = asn.replace('AS', '');
+                        const url = `${PEERINGDB_API_BASE}/net?asn=${asnNumber}`;
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch network data from PeeringDB cache`);
+                        }
+                        const data = await response.json();
+                        if (!data.data || data.data.length === 0) {
+                            throw new Error(`ASN not found in PeeringDB`);
+                        }
+                        return data.data[0];
+                    }
+
+                    async function fetchPeeringDBFacility(id) {
+                        const url = `${PEERINGDB_API_BASE}/fac?id=${id}`;
+                        const response = await fetch(url);
+                        if (!response.ok) return null;
+                        const data = await response.json();
+                        return data.data?.[0] || null;
+                    }
+                    async function fetchPeeringDBFacilities(facilitiesID) {
+                        const url = `${PEERINGDB_API_BASE}/netfac?net_id=${facilitiesID}`;
+                        const response = await fetch(url);
+                        if (!response.ok) return [];
+                        const data = await response.json();
+                        return data.data || [];
+                    }
+
+                    async function fetchPeeringDBIXs(asn) {
+                        const url = `${PEERINGDB_API_BASE}/netixlan?asn=${asn}`;
+                        const response = await fetch(url);
+                        if (!response.ok) return [];
+                        const data = await response.json();
+                        return data.data || [];
+                    }
+
+                    async function fetchPeeringDBContacts(netId) {
+                        const url = `${PEERINGDB_API_BASE}/poc?id=${netId}`;
+                        const response = await fetch(url);
+                        if (!response.ok) return [];
+                        const data = await response.json();
+                        return data.data || [];
+                    }
+
+                    function extractAttribute(obj, attrName) {
+                        return obj?.[attrName] || 'N/A';
+                    }
+
+                    async function loadBGPInfo() {
+                        try {
+                            const loading = document.getElementById('loading');
+                            const error = document.getElementById('error');
+                            const content = document.getElementById('content');
+
+                            const asn = ASN.replace('AS', '');
+                            if (!asn) {
+                                throw new Error('ASN Value not found.');
+                            }
+
+                            // Fetch PeeringDB data
+                            const peeringDBData = await fetchPeeringDB(ASN);
+                            const facilities = await fetchPeeringDBFacilities(peeringDBData.id);
+                            const ixs = await fetchPeeringDBIXs(peeringDBData.asn);
+                            // Build HTML content
+                            let html = '<div class="section">';
+
+                            // Network Information
+                            html += '<h3>Network Information</h2>';
+                            html += '<div class="info-grid">';
+                            html += `<div class="info-label">Network Name:</div><div class="info-value">${peeringDBData.name || 'N/A'}</div>`;
+                            html += `<div class="info-label">ASN:</div><div class="info-value"><code>AS${peeringDBData.asn}</code></div>`;
+                            html += `<div class="info-label">AKA:</div><div class="info-value">${peeringDBData.aka || '-'}</div>`;
+
+                            if (peeringDBData.website) {
+                                html += `<div class="info-label">Website:</div><div class="info-value"><a href="${peeringDBData.website}" target="_blank">${peeringDBData.website}</a></div>`;
+                            }
+
+                            if (peeringDBData.notes) {
+                                html += `<div class="info-label">Notes:</div><div class="info-value">${peeringDBData.notes}</div>`;
+                            }
+
+                            html += `<div class="info-label">Created:</div><div class="info-value">${new Date(peeringDBData.created).toLocaleDateString()}</div>`;
+                            html += `<div class="info-label">Last Updated:</div><div class="info-value">${new Date(peeringDBData.updated).toLocaleDateString()}</div>`;
+                            html += '</div>';
+
+                            // Traffic & Peering Information
+                            html += '<h3>Traffic & Peering Information</h2>';
+                            html += '<div class="info-grid">';
+                            html += `<div class="info-label">Traffic Levels:</div><div class="info-value">${peeringDBData.info_traffic || 'Not specified'}</div>`;
+                            html += `<div class="info-label">Traffic Ratio:</div><div class="info-value">${peeringDBData.info_ratio || 'Not specified'}</div>`;
+                            html += `<div class="info-label">Scope:</div><div class="info-value">${peeringDBData.info_scope || 'Not specified'}</div>`;
+                            html += `<div class="info-label">Network Type:</div><div class="info-value">${peeringDBData.info_type || 'Not specified'}</div>`;
+                            html += `<div class="info-label">Policy General:</div><div class="info-value">${peeringDBData.policy_general || 'Not specified'}</div>`;
+                            html += `<div class="info-label">Policy Locations:</div><div class="info-value">${peeringDBData.policy_locations || 'Not specified'}</div>`;
+                            html += `<div class="info-label">Policy Ratio:</div><div class="info-value">${peeringDBData.policy_ratio ? 'Required' : 'Not required'}</div>`;
+                            html += `<div class="info-label">Policy Contracts:</div><div class="info-value">${peeringDBData.policy_contracts || 'Not specified'}</div>`;
+
+                            if (peeringDBData.policy_url) {
+                                html += `<div class="info-label">Policy URL:</div><div class="info-value"><a href="${peeringDBData.policy_url}" target="_blank">${peeringDBData.policy_url}</a></div>`;
+                            }
+
+                            html += '</div>';
+
+                            // Route Server Information
+                            if (peeringDBData.route_server || peeringDBData.looking_glass) {
+                                html += '<h3>Looking Glass & Route Servers</h2>';
+                                html += '<div class="info-grid">';
+                                if (peeringDBData.route_server) {
+                                    html += `<div class="info-label">Route Server:</div><div class="info-value"><a href="${peeringDBData.route_server}" target="_blank">${peeringDBData.route_server}</a></div>`;
+                                }
+                                if (peeringDBData.looking_glass) {
+                                    html += `<div class="info-label">Looking Glass:</div><div class="info-value"><a href="${peeringDBData.looking_glass}" target="_blank">${peeringDBData.looking_glass}</a></div>`;
+                                }
+                                html += '</div>';
+                            }
+
+                            // IRR Information
+                            if (peeringDBData.irr_as_set) {
+                                html += '<h3>IRR Information</h2>';
+                                html += '<div class="info-grid">';
+                                html += `<div class="info-label">AS-SET:</div><div class="info-value"><code>${peeringDBData.irr_as_set}</code></div>`;
+                                html += '</div>';
+                            }
+
+                            // Facilities
+                            if (facilities.length > 0) {
+                                html += '<h3>Data Center Presence</h2>';
+                                html += '<p>Our network is present in the following facilities:</p>';
+                                html += '<table><thead><tr><th>Facility</th><th>City</th><th>Country</th><th>Local ASN</th></tr></thead><tbody>';
+                                for (const netfac of facilities) {
+                                    // Fetch full facility details
+                                    const fac = await fetchPeeringDBFacility(netfac.fac);
+                                    const facName = fac ? fac.name : (netfac.name || 'Unknown');
+                                    const city = fac ? fac.city : '-';
+                                    const country = fac ? fac.country : '-';
+                                    html += `<tr><td>${facName}</td><td>${city}</td><td>${country}</td><td>${ASN}</td></tr>`;
+                                }
+                                html += '</tbody></table>';
+                            } else {
+                                html += '<h3>Data Center Presence</h2>';
+                                html += '<p>No facilities registered in PeeringDB yet.</p>';
+                            }
+
+                            // Internet Exchanges
+                            if (ixs.length > 0) {
+                                html += '<h3>Internet Exchanges</h2>';
+                                html += '<p>We peer at the following Internet Exchanges:</p>';
+                                html += '<table><thead><tr><th>Exchange</th><th>IPv4</th><th>IPv6</th><th>Speed</th><th>Route Server</th><th>Operational</th></tr></thead><tbody>';
+                                for (const ix of ixs) {
+                                    const ipv4 = ix.ipaddr4 || '-';
+                                    const ipv6 = ix.ipaddr6 || '-';
+                                    const speed = ix.speed ? `${ix.speed} Mbps` : '-';
+                                    const rs = ix.is_rs_peer ? '<span style="color: #27ae60;">✓</span>' : '-';
+                                    const operational = ix.operational ? '<span style="color: #27ae60;">✓</span>' : '<span style="color: #e74c3c;">✗</span>';
+                                    html += `<tr><td>${ix.name || 'Unknown'}</td><td><code>${ipv4}</code></td><td><code>${ipv6}</code></td><td>${speed}</td><td>${rs}</td><td>${operational}</td></tr>`;
+                                };
+                                html += '</tbody></table>';
+                            } else {
+                                html += '<h3>Internet Exchanges</h2>';
+                                html += '<p>No Internet Exchange connections registered in PeeringDB yet.</p>';
+                            }
+
+
+                            // Additional Resources
+                            html += '<h3>Additional Resources</h2>';
+                            html += '<div class="info-grid">';
+                            html += `<div class="info-label">PeeringDB:</div><div class="info-value"><a href="https://www.peeringdb.com/asn/${asn}" target="_blank">View on PeeringDB</a></div>`;
+                            html += `<div class="info-label">BGP.tools:</div><div class="info-value"><a href="https://bgp.tools/as/${asn}" target="_blank">View on BGP.tools</a></div>`;
+                            html += `<div class="info-label">Hurricane Electric:</div><div class="info-value"><a href="https://bgp.he.net/${ASN}" target="_blank">View on HE BGP Toolkit</a></div>`;
+                            html += `<div class="info-label">RIPE Database:</div><div class="info-value"><a href="https://apps.db.ripe.net/db-web-ui/query?searchtext=${ASN}" target="_blank">View in RIPE</a></div>`;
+                            html += '</div>';
+
+                            html += '</div>';
+
+                            loading.style.display = 'none';
+                            content.innerHTML = html;
+                            content.style.display = 'block';
+
+                        } catch (err) {
+                            console.error('Error loading BGP info:', err);
+                            document.getElementById('loading').style.display = 'none';
+                            document.getElementById('error').innerHTML = `
+                    <strong>Error loading data from PeeringDB</strong><br>
+                    ${err.message}<br><br>
+                    This may be due to:
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>The AS Value not being set</li>
+                        <li>The your IP being blocked from the PeeringDB cache API</li>
+                        <li>Rate limit restrictions on the PeeringDB cache API</li>
+                        <li>Network connectivity issues</li>
+                    </ul>
+                    <p style="margin-top: 15px;">You can query directly at: 
+                        <a href="https://www.peeringdb.com/asn/${ASN.replace('AS', '')}" target="_blank">
+                            PeeringDB
+                        </a>
+                    </p>
+                `;
+                            document.getElementById('error').style.display = 'block';
+                        }
+                    }
+
+                    // Load data on page load
+                    window.addEventListener('DOMContentLoaded', loadBGPInfo);
+
+                </script>
+    </body>
+    </div>
+    <footer>
+        <p style="margin: 0;">
+            © <span id="currentYear"></span> <a href="https://antaresnetwork.com" target="_blank">Antares Network</a>
+            &nbsp;|&nbsp;
+            Hosted on <a href="https://developers.cloudflare.com/workers/" target="_blank">Cloudflare Workers</a>
+        </p>
+    </footer>
+    </div>
+    <script>
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Dark mode toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check for saved dark mode preference, default to dark mode
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode === 'disabled') {
+            body.classList.remove('dark-mode');
+            darkModeToggle.textContent = '🌙';
+        } else {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
+            if (!savedMode) {
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                darkModeToggle.textContent = '☀️';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                darkModeToggle.textContent = '🌙';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+
+</html>

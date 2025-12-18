@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS202902 - Antares Network</title>
+    <link rel="icon" type="image/svg+xml" href="https://antaresnetwork.com/resources/favicon.ico">
+    <meta name="description"
+        content="AS202902 - IPv6-only stub network hosting web services for Antares Network with selective peering.">
+    <meta name="keywords" content="Antares Network, AS202902">
+    <meta name="author" content="Antares Network">
+    <meta property="og:title" content="AS202902 - Antares Network">
+    <meta property="og:description"
+        content="IPv6-only stub network hosting web services for Antares Network with selective peering.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://AS202902.net">
+    <meta property="og:image" content="https://antaresnetwork.com/resources/icon.png">
+    <meta property="og:site_name" content="AS202902">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AS202902 - Antares Network">
+    <meta name="twitter:description"
+        content="IPv6-only stub network hosting web services for Antares Network with selective peering.">
+    <meta name="twitter:image" content="https://antaresnetwork.com/resources/icon.png">
+    <meta name="theme-color" content="#ff3505">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+        🌙
+    </button>
+
+    <body>
+        <div class="container">
+            <div class="header-container">
+                <img src="https://antaresnetwork.com/resources/icon.png" alt="Antares Network Logo" class="logo">
+                <h1><a href=https://AS202902.net>AS202902</a></h1>
+            </div>
+            <p class="subtitle">Part of the Antares Network - Hosting IPv6-native web services</p>
+            <div class="info-section">
+                <p>Welcome to AS202902, part of the <strong><a href="https://antaresnetwork.com"
+                            target="_blank">Antares Network</a></strong> organization. We operate an <strong>IPv6-only
+                        stub network</strong> dedicated to hosting IPv6 only services.</p>
+                <p>For detailed BGP session information and statistics, please see the <a href="/bgp.html">BGP page</a>.
+                </p>
+            </div>
+            <h2>Network Information</h2>
+            <table>
+                <tr>
+                    <th>ASN</th>
+                    <td>AS202902</td>
+                </tr>
+                <tr>
+                    <th>RIPE ORG ID</th>
+                    <td><a href=https://apps.db.ripe.net/db-web-ui/lookup?source=ripe&key=ORG-NG291-RIPE&type=organisation">ORG-NG291-RIPE</a></td>
+                </tr>
+                <tr>
+                    <th>Organization</th>
+                    <td><a href="https://antaresnetwork.com" target="_blank">Antares Network</a></td>
+                </tr>
+                <tr>
+                    <th>Network Type</th>
+                    <td>IPv6-Only Stub AS (No Transit)</td>
+                </tr>
+                <tr>
+                    <th>IPv6 Prefix</th>
+                    <td>2a0f:85c1:e16::/48</td>
+                </tr>
+                <tr>
+                    <th>Hostnames</th>
+                    <td>man.ext-infra.AS202902.net</td>
+                </tr>
+            </table>
+            <h2>Peering Locations</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Datacenter</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MAN1</td>
+                        <td>Manchester, UK</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Peering Partners</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Network</th>
+                        <th>ASN</th>
+                        <th>Website</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lagrange Cloud</td>
+                        <td>AS209735</td>
+                        <td><a href="https://lagrange.cloud" target="_blank">lagrange.cloud</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Routing Poicy</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Direction</th>
+                        <th>Object</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Import</td>
+                        <td>Default Summary Route</td>
+                    </tr>
+                    <tr>
+                        <td>Export</td>
+                        <td>2a0f:85c1:e16::/48</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>IPv6 Connectivity</h2>
+            <div id="dns-records" class="info-section">
+                <div id="dns-loading" style="text-align: center; padding: 20px; color: #7f8c8d;">Loading DNS records...
+                </div>
+                <div id="dns-content" style="display: none;"></div>
+                <div id="dns-error" style="display: none; color: #e74c3c; padding: 10px;"></div>
+            </div>
+            <h2>Peering Policy</h2>
+            <div class="info-section">
+                <p><strong>Selective peering policy.</strong></p>
+                <p>As a stub AS dedicated to hosting Antares Network web services, we maintain selective peering
+                    relationships. We currently peer with AS209735 (<a href="https://lagrange.cloud"
+                        target="_blank">lagrange.cloud</a>)</p>
+                <p style="margin-top: 15px;"><strong>Note:</strong> We are a stub AS and do not accept or provide
+                    transit services.</p>
+            </div>
+            <div class="contact">
+                <h2>Contact</h2>
+                <table>
+                    <tr>
+                        <th>Business Email</th>
+                        <td><a href="mailto:business@playantares.com">business@playantares.com</a></td>
+                    </tr>
+                    <tr>
+                        <th>NOC Email</th>
+                        <td><a href="mailto:noc@playantares.com">noc@playantares.com</a></td>
+                    </tr>
+                    <tr>
+                        <th>Website</th>
+                        <td><a href="https://antaresnetwork.com" target="_blank">antaresnetwork.com</a></td>
+                    </tr>
+                    <tr>
+                        <th>Status Page</th>
+                        <td><a href="https://status.antaresnetwork.com" target="_blank">status.antaresnetwork.com</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>PeeringDB</th>
+                        <td><a href="https://www.peeringdb.com/asn/202902" target="_blank">View on PeeringDB</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+    </div>
+    <footer>
+        <p style="margin: 0;">
+            © <span id="currentYear"></span> <a href="https://antaresnetwork.com" target="_blank">Antares Network</a>
+            &nbsp;|&nbsp;
+            Hosted on <a href="https://developers.cloudflare.com/workers/" target="_blank">Cloudflare Workers</a>
+        </p>
+    </footer>
+    </div>
+    <script>
+        const subdomains = ['ebr1', 'self.ebr1', 'pdb-cache']; // your list of subdomains
+    const rootDomain = 'as202902.net';
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode === 'disabled') {
+            body.classList.remove('dark-mode');
+            darkModeToggle.textContent = '🌙';
+        } else {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
+            if (!savedMode) {
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        }
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                darkModeToggle.textContent = '☀️';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                darkModeToggle.textContent = '🌙';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        async function fetchDNSRecords() {
+        const dnsLoading = document.getElementById('dns-loading');
+        const dnsContent = document.getElementById('dns-content');
+        const dnsError = document.getElementById('dns-error');
+
+        dnsLoading.style.display = 'block';
+        dnsContent.style.display = 'none';
+        dnsError.style.display = 'none';
+
+        try {
+            let html = '<table style="width: 100%; margin-top: 15px;"><thead><tr><th>Record</th><th>IPv6 Address</th><th>TTL</th></tr></thead><tbody>';
+            let anyRecords = false;
+
+            for (const sub of subdomains) {
+                const domain = `${sub}.${rootDomain}`;
+                const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=AAAA`, {
+                    headers: { 'Accept': 'application/dns-json' }
+                });
+
+                if (!response.ok) continue;
+
+                const data = await response.json();
+
+                if (data.Answer && data.Answer.length > 0) {
+                    data.Answer.forEach(record => {
+                        if (record.type === 28) { // AAAA record
+                            html += `<tr><td><code>${record.name}</code></td><td><code>${record.data}</code></td><td>${record.TTL}s</td></tr>`;
+                            anyRecords = true;
+                        }
+                    });
+                }
+            }
+
+            html += '</tbody></table>';
+
+            if (anyRecords) {
+                dnsContent.innerHTML = html;
+            } else {
+                dnsContent.innerHTML = '<p style="color: #7f8c8d;">No AAAA records found yet. DNS records will appear here once configured.</p>';
+            }
+
+            dnsContent.style.display = 'block';
+            dnsLoading.style.display = 'none';
+
+        } catch (err) {
+            console.error('Error fetching DNS records:', err);
+            dnsError.textContent = 'Unable to load DNS records. Please check back later.';
+            dnsError.style.display = 'block';
+            dnsLoading.style.display = 'none';
+        }
+    }
+        window.addEventListener('DOMContentLoaded', fetchDNSRecords);
+    </script>
+
+</html>
