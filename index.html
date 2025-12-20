@@ -39,8 +39,8 @@
             </div>
             <p class="subtitle">Part of the Antares Network - Hosting IPv6-native web services</p>
             <div class="info-section">
-                <p>Welcome to AS202902, part of the <strong><a href="https://antaresnetwork.com"
-                            target="_blank">Antares Network</a></strong> organization. We operate an <strong>IPv6-only
+                <p>Welcome to AS202902, part of the <strong><a href="https://antaresnetwork.com" target="_blank">Antares
+                            Network</a></strong> organization. We operate an <strong>IPv6-only
                         stub network</strong> dedicated to hosting IPv6 only services.</p>
                 <p>For detailed BGP session information and statistics, please see the <a href="/bgp.html">BGP page</a>.
                 </p>
@@ -53,7 +53,9 @@
                 </tr>
                 <tr>
                     <th>RIPE ORG ID</th>
-                    <td><a href=https://apps.db.ripe.net/db-web-ui/lookup?source=ripe&key=ORG-NG291-RIPE&type=organisation">ORG-NG291-RIPE</a></td>
+                    <td><a
+                            href=https://apps.db.ripe.net/db-web-ui/lookup?source=ripe&key=ORG-NG291-RIPE&type=organisation">ORG-NG291-RIPE</a>
+                    </td>
                 </tr>
                 <tr>
                     <th>Organization</th>
@@ -123,12 +125,16 @@
                     </tr>
                 </tbody>
             </table>
-            <h2>IPv6 Connectivity</h2>
+            <h2>IPv6 Records</h2>
             <div id="dns-records" class="info-section">
                 <div id="dns-loading" style="text-align: center; padding: 20px; color: #7f8c8d;">Loading DNS records...
                 </div>
                 <div id="dns-content" style="display: none;"></div>
                 <div id="dns-error" style="display: none; color: #e74c3c; padding: 10px;"></div>
+            </div>
+            <h2>Network Connectivity</h2>
+            <div id="pathings" class="info-section">
+                <img src="https://bgp.tools/pathimg/202902-default" alt="Routes for AS202902" style="width: 100%;">
             </div>
             <h2>Peering Policy</h2>
             <div class="info-section">
@@ -178,8 +184,8 @@
     </footer>
     </div>
     <script>
-        const subdomains = ['ebr1', 'self.ebr1', 'pdb-cache']; // your list of subdomains
-    const rootDomain = 'as202902.net';
+        const subdomains = ['ebr1', 'self.ebr1', 'v4.self', 'man1.p2p', 'ares.p2p', 'pdb-cache'];
+        const rootDomain = 'as202902.net';
         document.getElementById('currentYear').textContent = new Date().getFullYear();
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
@@ -207,56 +213,63 @@
         });
 
         async function fetchDNSRecords() {
-        const dnsLoading = document.getElementById('dns-loading');
-        const dnsContent = document.getElementById('dns-content');
-        const dnsError = document.getElementById('dns-error');
+            const dnsLoading = document.getElementById('dns-loading');
+            const dnsContent = document.getElementById('dns-content');
+            const dnsError = document.getElementById('dns-error');
 
-        dnsLoading.style.display = 'block';
-        dnsContent.style.display = 'none';
-        dnsError.style.display = 'none';
+            dnsLoading.style.display = 'block';
+            dnsContent.style.display = 'none';
+            dnsError.style.display = 'none';
 
-        try {
-            let html = '<table style="width: 100%; margin-top: 15px;"><thead><tr><th>Record</th><th>IPv6 Address</th><th>TTL</th></tr></thead><tbody>';
-            let anyRecords = false;
+            try {
+                let html = '<table style="width: 100%; margin-top: 15px;"><thead><tr><th>Record</th><th>IPv6 Address</th><th>TTL</th></tr></thead><tbody>';
+                let anyRecords = false;
 
-            for (const sub of subdomains) {
-                const domain = `${sub}.${rootDomain}`;
-                const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=AAAA`, {
-                    headers: { 'Accept': 'application/dns-json' }
-                });
+                for (const sub of subdomains) {
+                    const domain = `${sub}.${rootDomain}`;
 
-                if (!response.ok) continue;
+                    // Query for all three record types
+                    const types = ['A', 'AAAA', 'CNAME'];
 
-                const data = await response.json();
+                    for (const type of types) {
+                        const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=${type}`, {
+                            headers: { 'Accept': 'application/dns-json' }
+                        });
 
-                if (data.Answer && data.Answer.length > 0) {
-                    data.Answer.forEach(record => {
-                        if (record.type === 28) { // AAAA record
-                            html += `<tr><td><code>${record.name}</code></td><td><code>${record.data}</code></td><td>${record.TTL}s</td></tr>`;
-                            anyRecords = true;
+                        if (!response.ok) continue;
+
+                        const data = await response.json();
+
+                        if (data.Answer && data.Answer.length > 0) {
+                            data.Answer.forEach(record => {
+                                // Type 1 = A, Type 5 = CNAME, Type 28 = AAAA
+                                if (record.type === 1 || record.type === 5 || record.type === 28) {
+                                    html += `<tr><td><code>${record.name}</code></td><td><code>${record.data}</code></td><td>${record.TTL}s</td></tr>`;
+                                    anyRecords = true;
+                                }
+                            });
                         }
-                    });
+                    }
                 }
+
+                html += '</tbody></table>';
+
+                if (anyRecords) {
+                    dnsContent.innerHTML = html;
+                } else {
+                    dnsContent.innerHTML = '<p style="color: #7f8c8d;">No AAAA records found yet. DNS records will appear here once configured.</p>';
+                }
+
+                dnsContent.style.display = 'block';
+                dnsLoading.style.display = 'none';
+
+            } catch (err) {
+                console.error('Error fetching DNS records:', err);
+                dnsError.textContent = 'Unable to load DNS records. Please check back later.';
+                dnsError.style.display = 'block';
+                dnsLoading.style.display = 'none';
             }
-
-            html += '</tbody></table>';
-
-            if (anyRecords) {
-                dnsContent.innerHTML = html;
-            } else {
-                dnsContent.innerHTML = '<p style="color: #7f8c8d;">No AAAA records found yet. DNS records will appear here once configured.</p>';
-            }
-
-            dnsContent.style.display = 'block';
-            dnsLoading.style.display = 'none';
-
-        } catch (err) {
-            console.error('Error fetching DNS records:', err);
-            dnsError.textContent = 'Unable to load DNS records. Please check back later.';
-            dnsError.style.display = 'block';
-            dnsLoading.style.display = 'none';
         }
-    }
         window.addEventListener('DOMContentLoaded', fetchDNSRecords);
     </script>
 
