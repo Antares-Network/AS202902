@@ -265,12 +265,13 @@
 
             } catch (err) {
                 console.error('Error fetching DNS records:', err);
-                dnsError.textContent = 'Unable to load DNS records. Please check back later.';
+                dnsError.textContent = 'Unable to load DNS records. This may be a result of your connection to cloudflare-dns.com being blocked.';
                 dnsError.style.display = 'block';
                 dnsLoading.style.display = 'none';
             }
         }
         window.addEventListener('DOMContentLoaded', fetchDNSRecords);
     </script>
+
 
 </html>
