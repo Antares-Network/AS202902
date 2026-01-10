@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AS202902 - Antares Network</title>
-        <link rel="icon" type="image/svg+xml" href="https://antaresnetwork.com/resources/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="https://antaresnetwork.com/resources/favicon.ico">
     <meta name="description"
         content="AS202902 - IPv6-only stub network hosting web services for Antares Network with selective peering.">
     <meta name="keywords" content="Antares Network, AS202902">
@@ -38,11 +38,18 @@
                 <h1><a href=https://AS202902.net>AS202902</a></h1>
             </div>
             <p class="subtitle">Part of the Antares Network - Hosting IPv6-native web services</p>
-            <h3>BGP Information</h3>
             <div class="info-section">
                 <div id="loading" class="loading">Loading BGP information from PeeringDB...</div>
                 <div id="error" class="error" style="display: none;"></div>
                 <div id="content" style="display: none;"></div>
+                <iframe class="cf-radar-embed" width="100%" height="545"
+                    src="https://radar.cloudflare.com/embed/DataExplorerVisualizer?dataset=bgp&path=bgp%2Ftimeseries&dateRange=7d&asn=as202902&locale=en-US&widgetState=%7B%22showAnnotations%22%3Atrue%2C%22xy.hiddenSeries%22%3A%5B%5D%2C%22xy.highlightedSeries%22%3Anull%2C%22xy.hoveredSeries%22%3Anull%2C%22xy.previousVisible%22%3Atrue%7D&ref=%2Fexplorer%3FdataSet%3Dbgp%26asn%3Das202902"
+                    title="Cloudflare Radar - BGP time series for Worldwide and AS202902" loading="lazy"
+                    style="border:0;max-width:100%;"></iframe>
+                <iframe class="cf-radar-embed" width="100%" height="1000"
+                    src="https://radar.cloudflare.com/embed/BgpRealtimeRoutesSankey?ip=2a0f%3A85c1%3Ae16%3A%3A&mask=48&prefix=2a0f%3A85c1%3Ae16%3A%3A%2F48&widgetState=%7B%22showFullPaths%22%3Afalse%7D&ref=%2Frouting%2Fprefix%2F2a0f%3A85c1%3Ae16%3A%3A%2F48"
+                    title="Cloudflare Radar - Real-time connectivity" loading="lazy"
+                    style="border:0;max-width:100%;"></iframe>
                 <script>
                     const ASN = 'AS202902';
                     const PEERINGDB_API_BASE = 'https://pdb-cache.as202902.net/api';
@@ -254,6 +261,7 @@
                     window.addEventListener('DOMContentLoaded', loadBGPInfo);
 
                 </script>
+                
     </body>
     </div>
     <footer>
