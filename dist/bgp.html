@@ -238,11 +238,11 @@
                             console.error('Error loading BGP info:', err);
                             document.getElementById('loading').style.display = 'none';
                             document.getElementById('error').innerHTML = `
-                    <strong>Error loading data from PeeringDB</strong><br>
+                    <strong>Error loading data from PeeringDB cache <a href="https://pdb-cache.as202902.net/api/net?asn=202902">https://pdb-cache.as202902.net/api/net?asn=202902 </a></strong><br>
                     ${err.message}<br><br>
                     This may be due to:
                     <ul style="margin-top: 10px; margin-left: 20px;">
-                        <li>The AS Value not being set</li>
+                        <li>The PeeringDB cache is unavailable. Check the <a href="https://status.antaresnetwork.com">Status Page</a></li>
                         <li>The your IP being blocked from the PeeringDB cache API</li>
                         <li>Rate limit restrictions on the PeeringDB cache API</li>
                         <li>Network connectivity issues</li>
@@ -305,5 +305,6 @@
             }
         });
     </script>
+
 
 </html>
