@@ -57,15 +57,18 @@
                 </tr>
                 <tr>
                     <th>RPKI Signing Status</th>
-                    <td>Signing (<a href="https://rpki.cloudflare.com/?view=validator&validateRoute=202902_2a0f%3A85c1%3Ae16%3A%3A%2F48&ta=ripe&asn=202902&prefixMatch=lspec&explorerTab=list">Valid</a>)</td>
+                    <td>Signing (<a
+                            href="https://rpki.cloudflare.com/?view=validator&validateRoute=202902_2a0f%3A85c1%3Ae16%3A%3A%2F48&ta=ripe&asn=202902&prefixMatch=lspec&explorerTab=list">Valid</a>)
+                    </td>
                 </tr>
                 <tr>
                     <th>ASPA Signing Status</th>
-                    <td>Signing (<a href="https://radar.cloudflare.com/routing/as202902?dateRange=7d">Valid</a>)</td>
+                    <td>Signing (<a href="https://radar.cloudflare.com/routing/rpki/as202902?dateRange=7d">Valid</a>)</td>
                 </tr>
                 <tr>
                     <th>RIPE ORG ID</th>
-                    <td><a href="https://apps.db.ripe.net/db-web-ui/lookup?source=ripe&key=ORG-NG291-RIPE&type=organisation">ORG-NG291-RIPE</a>
+                    <td><a
+                            href="https://apps.db.ripe.net/db-web-ui/lookup?source=ripe&key=ORG-NG291-RIPE&type=organisation">ORG-NG291-RIPE</a>
                     </td>
                 </tr>
                 <tr>
@@ -80,8 +83,14 @@
                     <th>IPv6 Prefix</th>
                     <td>2a0f:85c1:e16::/48</td>
                 </tr>
-                    <th>Reverse DNS</th>
-                    <td>Published at <code>6.1.e.0.1.c.5.8.f.0.a.2.ip6.arpa</code> for in use IPs (<a href="https://www.digwebinterface.com/?hostnames=2a0f%3A85c1%3Ae16%3A%3A1&type=Reverse&ns=resolver&useresolver=1.1.1.1&nameservers=">Example</a>)</td>
+                <th>Reverse DNS</th>
+                <td>Published at <code>6.1.e.0.1.c.5.8.f.0.a.2.ip6.arpa</code> for in use IPs (<a
+                        href="https://www.digwebinterface.com/?hostnames=2a0f%3A85c1%3Ae16%3A%3A1&type=Reverse&ns=resolver&useresolver=1.1.1.1&nameservers=">Example</a>)
+                </td>
+                </tr>
+                <th>Internal Routing</th>
+                <td>Full iBGP Mesh</td>
+               
             </table>
             <h2>Peering Locations</h2>
             <table>
@@ -95,6 +104,10 @@
                     <tr>
                         <td>MAN1</td>
                         <td>Manchester, UK</td>
+                    </tr>
+                    <tr>
+                        <td>EQCH3</td>
+                        <td>Chicago, US</td>
                     </tr>
                 </tbody>
             </table>
@@ -112,6 +125,12 @@
                         <td>Lagrange Cloud</td>
                         <td>AS209735</td>
                         <td><a href="https://lagrange.cloud" target="_blank">lagrange.cloud</a></td>
+                    </tr>
+                    <tr>
+                        <td>Vultr</td>
+                        <td>AS20473</td>
+                        <td><a href="https://docs.vultr.com/products/network/bgp/asn-information/as20473"
+                                target="_blank">vultr.com</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -146,7 +165,9 @@
                 <p><strong>Selective peering policy.</strong></p>
                 <p>As a stub AS dedicated to hosting Antares Network web services, we maintain selective peering
                     relationships. We currently peer with AS209735 (<a href="https://lagrange.cloud"
-                        target="_blank">lagrange.cloud</a>)</p>
+                        target="_blank">lagrange.cloud</a>) and AS20473 (<a
+                        href="https://docs.vultr.com/products/network/bgp/asn-information/as20473"
+                        target="_blank">vultr.com</a>)</p>
                 <p style="margin-top: 15px;"><strong>Note:</strong> We are a stub AS and do not accept or provide
                     transit services.</p>
             </div>
@@ -282,5 +303,3 @@
 
 
 </html>
-
-
